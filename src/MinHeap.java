@@ -1,12 +1,29 @@
-public class MinHeap {
-    private int[] heap;
-    private int index;
-    private int size;
+//TODO
+/*Add the following functions
+ * 
+ * 
+ * inHeap(int index);//
+ * key=value to sort with should be double to reflect weight of edges
+ * id=value that references object best to use int 
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
+
+
+
+
+public class MinHeap {//array implimentation
+    private Edge[] heap;
+    private int index;//used as a 
+    private int size;//ammount of nodes to 
 
     public MinHeap(int s) {
         this.size = s;
         this.index = 0;
-        this.heap = new int[size];
+        this.heap = new Edge[size];
     }
 
     private int parent(int i) {
@@ -29,28 +46,28 @@ public class MinHeap {
     }
 
     private void swap (int x, int y) {
-        int tmp;
+        Edge tmp;
         tmp = this.heap[x];
         this.heap[x] = this.heap[y];
         this.heap[y] = tmp;
     }
 
-    public void insert(int element) {
+    public void insert(Edge element) {
         if (this.index >= size) {
             return;
         }
         this.heap[this.index] = element;
         int current = index;
 
-        while (this.heap[current] < this.heap[parent(current)]) {
+        while (this.heap[current].getWeight() < this.heap[parent(current)].getWeight()) {
             swap(current, parent(current));
             current = parent(current);
         }
         index++;
     }
 
-    public int remove() {
-        int popped = this.heap[0];
+    public Edge remove() {
+        Edge popped = this.heap[0];
         this.heap[0] = this.heap[--this.index];
         minHeapify(0);
         return popped;
@@ -58,9 +75,9 @@ public class MinHeap {
 
     private void minHeapify(int i) {
         if (!isLeaf(i)) {
-            if (this.heap[i] > this.heap[leftChild(i)] ||
-                this.heap[i] > this.heap[rightChild(i)]) {
-                if (this.heap[leftChild(i)] < this.heap[rightChild(i)]) {
+            if (this.heap[i].getWeight() > this.heap[leftChild(i)].getWeight() ||
+                this.heap[i].getWeight() > this.heap[rightChild(i)].getWeight()) {
+                if (this.heap[leftChild(i)].getWeight() < this.heap[rightChild(i)].getWeight()) {
                     swap(i, leftChild(i));
                     minHeapify(leftChild(i));
                 } else {
@@ -77,5 +94,27 @@ public class MinHeap {
         }
     }
 
+    public void printHeapArray()
+    {
+        for (Edge i : heap) {
+        System.out.println(i);    
+        }
+        
+
+    }
+    public void printHeap() {
+        for (int i = 0; i < (index / 2); i++) {
+            System.out.print("Parent : " + this.heap[i].getName());
+            if (leftChild(i) < index)
+                System.out.print(" Left : " + this.heap[leftChild(i)].getName());
+            if (rightChild(i) < index)
+                System.out.print(" Right :" + this.heap[rightChild(i)].getName());
+            System.out.println();
+        }
+    }
+
 
 }
+
+
+
